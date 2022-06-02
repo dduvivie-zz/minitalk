@@ -51,7 +51,7 @@ clean:
 	@ $(MAKE) -C $(LIBFT) clean
 	@ rm -f $(OBJS)
 
-fclean:
+fclean: clean
 	@ rm -f $(SERVER) $(CLIENT)
 	@ $(MAKE) -C $(LIBFT) fclean
 
