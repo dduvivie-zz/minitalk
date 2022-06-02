@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dduvivie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 17:43:08 by dduvivie          #+#    #+#             */
-/*   Updated: 2022/06/02 17:43:09 by dduvivie         ###   ########.fr       */
+/*   Created: 2022/06/02 17:43:30 by dduvivie          #+#    #+#             */
+/*   Updated: 2022/06/02 17:43:33 by dduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	test2(void)
+//void sighandler(int signum)
+//{
+//	printf("Caught signal %d, coming out...\n", signum);
+//	exit(1);
+//}
+
+int	test1(void)
 {
-	ft_printf("test for libft function, %d\n", ft_strlen("01234"));
+	ft_printf("Test for ft_printf\n");
 	return (0);
 }
 
 int main(void)
 {
-	test2();
-	return (0);
+	test1();
+	//signal(SIGINT, sighandler);
+	//while(1)
+	//{
+	//  printf("Going to sleep for a second...\n");
+	//  sleep(1); 
+	//}
+	return(0);
 }
