@@ -11,15 +11,19 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <stdio.h>
 
-int	test2(void)
-{
-	ft_printf("test for libft function, %d\n", ft_strlen("01234"));
-	return (0);
-}
 
-int main(void)
+int main(int argc, char** argv)
 {
-	test2();
+	pid_t pid;
+	if (argc < 3)
+		ft_printf("Wrong input.\n");
+	else
+	{
+		// check that pid corresponded to the process
+		pid = (int)argv[1];
+		kill(pid, SIGUSR1);
+	}
 	return (0);
 }

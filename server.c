@@ -12,26 +12,21 @@
 
 #include "minitalk.h"
 
-//void sighandler(int signum)
-//{
-//	printf("Caught signal %d, coming out...\n", signum);
-//	exit(1);
-//}
 
-int	test1(void)
+void	my_handler(int sig)
 {
-	ft_printf("Test for ft_printf\n");
-	return (0);
+	if (sig == SIGUSR1)
+		ft_printf("PASS\n");
 }
 
 int main(void)
 {
-	test1();
-	//signal(SIGINT, sighandler);
-	//while(1)
-	//{
-	//  printf("Going to sleep for a second...\n");
-	//  sleep(1); 
-	//}
+	int	pid;
+
+	pid = getpid();
+	ft_printf("PID : %d\n", pid);
+	// wait till the client file receive input from the command line
+	signal(SIGUSR1, my_handler);
+	pause();
 	return(0);
 }
