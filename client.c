@@ -36,21 +36,20 @@ int	input_is_correct(int argc, char **argv)
 Send the length of the string to the server, bit-by-bit.
 (an integer is 32 bits)
 */
-void	send_length_to_server(int pid, char *str, int len)
+void	send_length_to_server(int pid, int len)
 {
 	int	i;
 
 	i = 0;
-	while (i < 32)
+	while (i++ < 32)
 	{
 		if (len & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
 		len = len >> 1;
-		i++;
+		usleep(100);
 	}
-
 }
 
 
@@ -65,7 +64,7 @@ int main(int argc, char** argv)
 	pid = ft_atoi(argv[1]);
 	str = argv[2];
 	len = ft_strlen(str);
-	send_length_to_server(pid, str, len);
+	send_length_to_server(pid, len);
 	//kill(pid, SIGUSR1);
 	return (0);
 }
