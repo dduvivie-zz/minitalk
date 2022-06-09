@@ -23,22 +23,11 @@ int	*ft_convert(unsigned long long num, char *base, int base_num, int *len)
 
 	quotient = num / base_num;
 	if (quotient == 0)
-	{
-		if (num < 0)
-		{
-			*len += ft_print_char('-');
-			*len += ft_print_char(base[-num % base_num]);
-		}
-		else
-			*len += ft_print_char(base[num % base_num]);
-	}
+		*len += ft_print_char(base[num % base_num]);
 	else
 	{
 		ft_convert(quotient, base, base_num, len);
-		if (num < 0)
-			*len += ft_print_char(base[-num % base_num]);
-		else
-			*len += ft_print_char(base[num % base_num]);
+		*len += ft_print_char(base[num % base_num]);
 	}
 	return (len);
 }
