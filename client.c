@@ -34,7 +34,6 @@ int	input_is_correct(int argc, char **argv)
 
 /*
 Send the length of the string to the server, bit-by-bit.
-(an integer is 32 bits)
 */
 void	send_length_to_server(int pid, int len)
 {
@@ -52,6 +51,31 @@ void	send_length_to_server(int pid, int len)
 	}
 }
 
+/*
+Send each character of the string to the server, bit-by-bit.
+*/
+void	send_string_to_server(int pid, int len, char *str)
+{
+	int				bit_count;
+	unsigned char	char_bits;
+
+	bit_count = 0;
+	while(len--)
+	{
+		while(bit_count++ < 8)
+		{
+			char_bits = *str;
+			if (char_bits & 1)
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			char_bits = char_bits >> 1;
+			usleep(100);
+		}
+		bit_count = 0;
+		str++;
+	}
+}
 
 int main(int argc, char** argv)
 {
@@ -64,7 +88,10 @@ int main(int argc, char** argv)
 	pid = ft_atoi(argv[1]);
 	str = argv[2];
 	len = ft_strlen(str);
-	send_length_to_server(pid, len);
-	//kill(pid, SIGUSR1);
+	if (len != 0)
+	{
+		send_length_to_server(pid, len);
+		send_string_to_server(pid, len, str);
+	}
 	return (0);
 }
