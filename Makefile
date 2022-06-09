@@ -31,21 +31,15 @@ all: comp_libft comp_server comp_client
 #$(NAME): comp_libft comp_server comp_client
 
 comp_libft:
-	@ echo "libft compilation..."
 	@ $(MAKE) -C $(LIBFT) all
-	@ echo "libft compilation done..."
 
 comp_server:
-	@ echo "comp server..."
 	@ $(CC) $(CFLAGS) -c $(SERVER_SRC)
 	@ $(CC) -o $(SERVER) $(SERVER_OBJ) $(LIB)
-	@ echo "comp server done..."
 
 comp_client: $(CLIENT_SRC)
-	@ echo "comp client..."
 	@ $(CC) $(CFLAGS) -c $(CLIENT_SRC)
 	@ $(CC) -o $(CLIENT) $(CLIENT_OBJ) $(LIB)
-	@ echo "comp client done..."
 
 clean:
 	@ $(MAKE) -C $(LIBFT) clean
