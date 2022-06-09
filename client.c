@@ -62,10 +62,10 @@ void	send_string_to_server(int pid, int len, char *str)
 	bit_count = 0;
 	while(len--)
 	{
+		char_bits = *str;
 		while(bit_count++ < 8)
 		{
-			char_bits = *str;
-			if (char_bits & 1)
+			if (char_bits & 0x01)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);

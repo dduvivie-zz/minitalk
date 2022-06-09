@@ -12,56 +12,64 @@
 
 #include "minitalk.h"
 
-char	*malloc_str(int len)
+/*
+This recursive function calculate 2 to the n-th power.
+*/
+int	power_calculator(int base, int exponents)
 {
-	char	*ptr;
-
-	//ft_printf("------------------%d----------\n", len);
-	ptr = malloc((len + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	ft_printf("OK\n");
-	return (ptr);
+	if (exponents != 0)
+		return (base * power_calculator(base, exponents - 1));
+	else
+		return (1);
 }
 
 /*
-Put each bit recieved from client in the integer variable.
+Corrects all 32 bits received from the clients, to get the length value
 */
-void	convert_bit_to_int(int sig, int *get_len_val, int *len, char **str)
+void	convert_bit_to_int(int sig, int *received_len, int *len, char **str)
 {
 	static int	bit_count = 0;
+	char 		*ptr;
 
-	ft_printf("++++++++++++%d++++++++++++\n", *len);
 	if (sig == SIGUSR1)
-		*len += 1;
-	if (++bit_count < 32)
-		*len = *len << 1;
-	else
+		*len += power_calculator(2, bit_count);
+	bit_count++;
+	if (bit_count == 32)
 	{
-		*get_len_val = 1;
+		*received_len = 1;
 		bit_count = 0;
-		//ft_printf("++++++++++++%d++++++++++++\n", *len);
-		*str = malloc_str(*len);
+		ptr = NULL;
+		ptr = (char *)malloc( ((int)*len + 1) * sizeof(char));
+		if (!ptr)
+			return ;
+		*str = ptr;
 	}
 }
 
+/*
+Corrects 8 bits for one char, then assign the character in string
+*/
 void	convert_bit_to_char(int sig, int *len, char **str)
 {
 	static int				bit_count = 0;
 	static int				i = 0;
 	static unsigned char	char_bits = 0;
-
-	ft_printf("IN  i : %d\n", i);
+	
 	if (sig == SIGUSR1)
-		char_bits += 1;
-	if (++bit_count < 8)
-		char_bits = char_bits << 1;
-	else
+		char_bits += (char)power_calculator(2, bit_count);
+	bit_count++;
+	if (bit_count == 8)
 	{
-		*str[i] = char_bits;
+		(*str)[i] = char_bits;
 		char_bits = 0;
+		bit_count = 0;
 		i++;
 		*len -= 1;
+	}
+	if (*len == 0)
+	{
+		(*str)[i] = '\0';
+		i = 0;
 	}
 }
 
@@ -71,12 +79,12 @@ The signal SIGUSR1 represent 1, and SIGUSR2 represent 0.
 */
 void	get_info_from_client(int signal)
 {
-	static int	get_len_val = 0;
+	static int	received_len = 0;
 	static int	len = 0;
 	static char	*str = NULL;
 	
-	if (!get_len_val)
-		convert_bit_to_int(signal, &get_len_val, &len, &str);
+	if (!received_len)
+		convert_bit_to_int(signal, &received_len, &len, &str);
 	else
 	{
 		convert_bit_to_char(signal, &len, &str);
@@ -85,7 +93,7 @@ void	get_info_from_client(int signal)
 			ft_printf("%s\n", str);
 			free(str);
 			str = NULL;
-			get_len_val = 0;
+			received_len = 0;
 		}
 	}
 }
