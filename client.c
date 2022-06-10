@@ -21,12 +21,18 @@ int	input_is_correct(int argc, char **argv)
 	int	i;
 
 	if (argc != 3)
+	{
+		ft_printf("Error: Input is incorrect!\n");
 		return (0);
+	}
 	i = 0;
 	while (argv[1][i])
 	{
 		if (!ft_isdigit(argv[1][i]))
+		{
+			ft_printf("Error: Non valid pid!\n");
 			return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -93,5 +99,7 @@ int main(int argc, char** argv)
 		send_length_to_server(pid, len);
 		send_string_to_server(pid, len, str);
 	}
+	//system("leaks client > client_log");
+	//system("leaks server > server_log");
 	return (0);
 }

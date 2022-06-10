@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME		= minitalk
 SERVER		= server
 CLIENT		= client
-#NAME		= $(SERVER)
 LIBFT		= libft
 LIB			= libft/libft.a
 
@@ -26,9 +26,9 @@ CLIENT_OBJ	= $(CLIENT_SRC:.c=.o)
 OBJS		= $(SERVER_OBJ) $(CLIENT_OBJ)
 
 
-all: comp_libft comp_server comp_client
+all: $(NAME)
 
-#$(NAME): comp_libft comp_server comp_client
+$(NAME): comp_libft comp_server comp_client
 
 comp_libft:
 	@ $(MAKE) -C $(LIBFT) all
