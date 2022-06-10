@@ -66,10 +66,10 @@ void	send_string_to_server(int pid, int len, char *str)
 	unsigned char	char_bits;
 
 	bit_count = 0;
-	while(len--)
+	while (len--)
 	{
 		char_bits = *str;
-		while(bit_count++ < 8)
+		while (bit_count++ < 8)
 		{
 			if (char_bits & 0x01)
 				kill(pid, SIGUSR1);
@@ -83,7 +83,7 @@ void	send_string_to_server(int pid, int len, char *str)
 	}
 }
 
-int main(int argc, char** argv)
+int	main(int argc, char **argv)
 {
 	int		pid;
 	int		len;
